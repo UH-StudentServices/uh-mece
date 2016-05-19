@@ -6,11 +6,11 @@
  */
 
 /**
- * Class MECEServiceMultilingualStringValue
+ * Class MECEMultilingualStringValue
  *
  * Provides an class for containing multilingual strings.
  */
-class MECEServiceMultilingualStringValue {
+class MECEMultilingualStringValue {
 
   /**
    * @var array

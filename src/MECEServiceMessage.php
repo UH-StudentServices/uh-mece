@@ -58,17 +58,17 @@ class MECEServiceMessage {
   private $heading = '';
 
   /**
-   * @var MECEServiceMultilingualStringValue
+   * @var MECEMultilingualStringValue
    */
   private $message;
 
   /**
-   * @var MECEServiceMultilingualStringValue
+   * @var MECEMultilingualStringValue
    */
   private $linkText;
 
   /**
-   * @var MECEServiceMultilingualStringValue
+   * @var MECEMultilingualStringValue
    */
   private $link;
 
@@ -274,16 +274,16 @@ class MECEServiceMessage {
 
   /**
    * Setter method for setting message.
-   * @param MECEServiceMultilingualStringValue $message
+   * @param MECEMultilingualStringValue $message
    * @return void
    */
-  public function setMessage(MECEServiceMultilingualStringValue $message) {
+  public function setMessage(MECEMultilingualStringValue $message) {
     $this->message = $message;
   }
 
   /**
    * Getter method for getting message.
-   * @return MECEServiceMultilingualStringValue
+   * @return MECEMultilingualStringValue
    */
   public function getMessage() {
     return $this->message;
@@ -291,16 +291,16 @@ class MECEServiceMessage {
 
   /**
    * Setter method for setting link text.
-   * @param MECEServiceMultilingualStringValue $linkText
+   * @param MECEMultilingualStringValue $linkText
    * @return void
    */
-  public function setLinkText(MECEServiceMultilingualStringValue $linkText) {
+  public function setLinkText(MECEMultilingualStringValue $linkText) {
     $this->linkText = $linkText;
   }
 
   /**
    * Getter method for getting link text.
-   * @return MECEServiceMultilingualStringValue
+   * @return MECEMultilingualStringValue
    */
   public function getLinkText() {
     return $this->linkText;
@@ -308,16 +308,16 @@ class MECEServiceMessage {
 
   /**
    * Setter method for setting link.
-   * @param MECEServiceMultilingualStringValue $link
+   * @param MECEMultilingualStringValue $link
    * @return void
    */
-  public function setLink(MECEServiceMultilingualStringValue $link) {
+  public function setLink(MECEMultilingualStringValue $link) {
     $this->link = $link;
   }
 
   /**
    * Getter method for getting link.
-   * @return MECEServiceMultilingualStringValue
+   * @return MECEMultilingualStringValue
    */
   public function getLink() {
     return $this->link;
