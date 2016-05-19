@@ -22,6 +22,14 @@ class MECEMultilingualStringValue {
    */
   private $values = array();
 
+  /**
+   * Constructor of MECEMultilingualStringValue class. You may optionally pass
+   * options for the class.
+   *
+   * @param array $options
+   *   'supportedLanguages': List of supported langauges. If not given, then
+   *                         constructor will set default values for you.
+   */
   public function __construct(array $options = array()) {
 
     // Set supported languages
