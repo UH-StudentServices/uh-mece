@@ -16,23 +16,79 @@ class MECEServiceMessage {
   /*
    * Following list of properties are part of the service message.
    */
+
+  /**
+   * @var array
+   */
   private $recipients = array();
+
+  /**
+   * @var string
+   */
   private $priority = '';
+
+  /**
+   * @var DateTime
+   */
   private $deadline;
+
+  /**
+   * @var DateTime
+   */
   private $expiration;
+
+  /**
+   * @var DateTime
+   */
   private $submitted;
+
+  /**
+   * @var string
+   */
   private $source = '';
+
+  /**
+   * @var string
+   */
   private $sourceId = '';
+
+  /**
+   * @var string
+   */
   private $heading = '';
+
+  /**
+   * @var string
+   */
   private $message = '';
+
+  /**
+   * @var string
+   */
   private $linkText = '';
+
+  /**
+   * @var string
+   */
   private $link = '';
+
+  /**
+   * @var string
+   */
   private $avatarImageUrl = '';
 
   /*
    * Following list of properties are for this class implementation.
    */
+
+  /**
+   * @var array
+   */
   private $supportedLanguages = array();
+
+  /**
+   * @var DateTimeZone
+   */
   private $requiredTimeZone;
 
   /**
