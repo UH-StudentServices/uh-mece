@@ -1,7 +1,8 @@
 # University of Helsinki, MECE
 
-This is a Drupal module that provides ability to communicate with Message Center
-(MECE) maintained by Center for Information Technology (University of Helsinki).
+This is a Drupal 7 module that provides ability to communicate with Message
+Center (MECE) maintained by Center for Information Technology (University of
+Helsinki).
 
 ## Planned Milestones
 * Implement base module for providing basic configuration of the connection
