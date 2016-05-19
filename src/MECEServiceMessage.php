@@ -387,7 +387,7 @@ class MECEServiceMessage {
     }
 
     // Check that value matches with required timezone
-    if ($value->getOffset() !== $this->requiredTimeZone->getOffset()) {
+    if ($value->getTimezone()->getName() !== $this->requiredTimeZone->getName()) {
       throw new LogicException($property . ' DateTime value must be in timezone "' . $this->requiredTimeZone->getName() . '"');
     }
 
