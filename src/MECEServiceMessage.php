@@ -227,7 +227,7 @@ class MECEServiceMessage {
   public function setDeadline(DateTime $deadline) {
 
     // Deadline can't be after expiration
-    if (!$deadline->getTimestamp() > $this->getExpiration()->getTimestamp()) {
+    if ($deadline->getTimestamp() > $this->getExpiration()->getTimestamp()) {
       throw new LogicException('Deadline can not be after expiration.');
     }
 
@@ -250,10 +250,10 @@ class MECEServiceMessage {
   public function setExpiration(DateTime $expiration) {
 
     // Expiration can't be before submitted or deadline
-    if (!$expiration->getTimestamp() < $this->getSubmitted()->getTimestamp()) {
+    if ($expiration->getTimestamp() < $this->getSubmitted()->getTimestamp()) {
       throw new LogicException('Expiration can not be before submitted.');
     }
-    if (!$expiration->getTimestamp() < $this->getDeadline()->getTimestamp()) {
+    if ($expiration->getTimestamp() < $this->getDeadline()->getTimestamp()) {
       throw new LogicException('Expiration can not be before deadline.');
     }
 
@@ -276,7 +276,7 @@ class MECEServiceMessage {
   public function setSubmitted(DateTime $submitted) {
 
     // Submitted can't be after expiration
-    if (!$submitted->getTimestamp() > $this->getExpiration()->getTimestamp()) {
+    if ($submitted->getTimestamp() > $this->getExpiration()->getTimestamp()) {
       throw new LogicException('Submitted can not be after expiration.');
     }
 
