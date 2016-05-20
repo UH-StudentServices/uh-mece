@@ -3,10 +3,8 @@
 This is a Drupal module that provides ability to communicate with Message Center
 (MECE) maintained by Center for Information Technology (University of Helsinki).
 
-## Planned Milestones
-* Implement base module for providing basic configuration of the connection
-* Implement submodule for providing utility functions for creating messages
-* Implement submodule for rendering an JS widget (as block perhaps?)
+# Branches
+See branch [7.x-1.x](https://github.com/UH-StudentServices/uh-mece/tree/7.x-1.x), which is the currently development branch.
 
 ## Questions
 Please post your question to doo-projekti@helsinki.fi
