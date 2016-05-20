@@ -51,7 +51,7 @@ class MECEMultilingualStringValue {
     if (!is_string($language)) {
       throw new InvalidArgumentException('Language must be an string type.');
     }
-    if (in_array($language, $this->getSupportedLanguages())) {
+    if (!in_array($language, $this->getSupportedLanguages())) {
       throw new InvalidArgumentException('Language "' . $language . '" is not supported.');
     }
 
@@ -78,7 +78,7 @@ class MECEMultilingualStringValue {
     if (!is_string($language)) {
       throw new InvalidArgumentException('Language must be an string type.');
     }
-    if (in_array($language, $this->getSupportedLanguages())) {
+    if (!in_array($language, $this->getSupportedLanguages())) {
       throw new InvalidArgumentException('Language "' . $language . '" is not supported.');
     }
 
