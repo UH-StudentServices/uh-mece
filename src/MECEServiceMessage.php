@@ -94,7 +94,7 @@ class MECEServiceMessage {
   /**
    * Class constructor for MECEServiceMessage.
    * @param array $recipients
-   * @param $source
+   * @param string $source
    * @param array $options
    *   'priority':           String value for priority. Optional (default: '1').
    *   'supportedLanguages': List of languages to support. Optional (default:
