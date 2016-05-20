@@ -41,8 +41,8 @@ class MECEMultilingualStringValue {
 
   /**
    * Setter callback for setting a value for specific language.
-   * @param $value
-   * @param $language
+   * @param string $value
+   * @param string $language
    * @return void
    */
   public function setValue($value, $language) {
@@ -68,7 +68,7 @@ class MECEMultilingualStringValue {
 
   /**
    * Getter callback for given language.
-   * @param $language
+   * @param string $language
    * @return string|null
    *   Returns an string of given language when available. Returns NULL if value
    *   is not set for given language.
