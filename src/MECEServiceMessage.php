@@ -100,7 +100,7 @@ class MECEServiceMessage {
    *   'supportedLanguages': List of languages to support. Optional (default:
    *                         'fi', 'en', 'sv')
    */
-  public function __construct(array $recipients, $source, array $options) {
+  public function __construct(array $recipients, $source, array $options = array()) {
 
     // Set recipients
     $this->setRecipients($recipients);
