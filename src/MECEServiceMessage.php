@@ -93,12 +93,29 @@ class MECEServiceMessage {
 
   /**
    * Class constructor for MECEServiceMessage.
+   * @param array $recipients
+   * @param $source
+   * @param array $options
+   *   'priority':           String value for priority. Optional (default: '1').
+   *   'supportedLanguages': List of languages to support. Optional (default:
+   *                         'fi', 'en', 'sv')
    */
-  public function __construct() {
-    // Construct default values
-    $this->priority = '1';
-    $this->source = 'DOO';
-    $this->supportedLanguages = array('fi', 'en', 'sv');
+  public function __construct(array $recipients, $source, array $options) {
+
+    // Set recipients
+    $this->setRecipients($recipients);
+
+    // Check source and set it
+    if (!is_string($source)) {
+      throw new InvalidArgumentException('Source must be an string.');
+    }
+    $this->setSource($source);
+
+    // Priority and supported languages can be set from options.
+    $options['priority'] = !empty($options['priority']) ? $options['priority'] : '1';
+    $this->setPriority($options['priority']);
+    $options['supportedLanguages'] = (isset($options['supportedLanguages']) && is_array($options['supportedLanguages'])) ? $options['supportedLanguages'] : array('fi', 'en', 'sv');
+    $this->supportedLanguages = $options['supportedLanguages'];
 
     // Construct date values with required timezone
     $this->requiredTimeZone = new DateTimeZone('Etc/Zulu');
