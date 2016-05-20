@@ -53,9 +53,9 @@ class MECEServiceMessage {
   private $sourceId = '';
 
   /**
-   * @var string
+   * @var MECEMultilingualStringValue
    */
-  private $heading = '';
+  private $heading;
 
   /**
    * @var MECEMultilingualStringValue
@@ -321,16 +321,16 @@ class MECEServiceMessage {
 
   /**
    * Setter method for setting heading.
-   * @param string $heading
+   * @param MECEMultilingualStringValue $heading
    * @return void
    */
-  public function setHeading($heading) {
-    $this->setStringProperty($heading, 'heading');
+  public function setHeading(MECEMultilingualStringValue $heading) {
+    $this->heading = $heading;
   }
 
   /**
    * Getter method for getting heading.
-   * @return string
+   * @return MECEMultilingualStringValue
    */
   public function getHeading() {
     return $this->heading;
