@@ -274,6 +274,12 @@ class MECEServiceMessage {
    * @return void
    */
   public function setSubmitted(DateTime $submitted) {
+
+    // Submitted can't be after expiration
+    if (!$submitted->getTimestamp() > $this->getExpiration()->getTimestamp()) {
+      throw new LogicException('Submitted can not be after expiration.');
+    }
+
     $this->setDateProperty($submitted, 'submitted');
   }
 
