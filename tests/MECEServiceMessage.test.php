@@ -5,15 +5,11 @@
  * @see README.md how to contribute to this project
  */
 
+require_once __DIR__ . '/../src/MECEMultilingualStringValue.php';
 require_once __DIR__ . '/../src/MECEServiceMessage.php';
 
 /**
  * Class MECEServiceMessageTest
- *
- * @TODO Test Heading
- * @TODO Test Link
- * @TODO Test LinkText
- * @TODO Test Message
  *
  * @coversDefaultClass \MECEServiceMessage
  */
@@ -248,6 +244,66 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
     $class = new MECEServiceMessage($this->recipients, $this->source);
     $this->setExpectedException(InvalidArgumentException::class, "Given value type 'boolean' for 'sourceId' property is not a string.");
     $class->setSourceId(TRUE);
+  }
+
+  /**
+   * Multilingual string property heading should be able to set and get.
+   * @covers ::setHeading
+   * @covers ::getHeading
+   */
+  public function testSetGetHeading() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newValue = new MECEMultilingualStringValue();
+    $newValue->setValue($this->getRandomString(), 'fi');
+    $newValue->setValue($this->getRandomString(), 'en');
+    $newValue->setValue($this->getRandomString(), 'sv');
+    $class->setHeading($newValue);
+    $this->assertEquals($newValue, $class->getHeading());
+  }
+
+  /**
+   * Multilingual string property linkText should be able to set and get.
+   * @covers ::setLinkText
+   * @covers ::getLinkText
+   */
+  public function testSetGetLinkText() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newValue = new MECEMultilingualStringValue();
+    $newValue->setValue($this->getRandomString(), 'fi');
+    $newValue->setValue($this->getRandomString(), 'en');
+    $newValue->setValue($this->getRandomString(), 'sv');
+    $class->setLinkText($newValue);
+    $this->assertEquals($newValue, $class->getLinkText());
+  }
+
+  /**
+   * Multilingual string property link should be able to set and get.
+   * @covers ::setLink
+   * @covers ::getLink
+   */
+  public function testSetGetLink() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newValue = new MECEMultilingualStringValue();
+    $newValue->setValue($this->getRandomString(), 'fi');
+    $newValue->setValue($this->getRandomString(), 'en');
+    $newValue->setValue($this->getRandomString(), 'sv');
+    $class->setLink($newValue);
+    $this->assertEquals($newValue, $class->getLink());
+  }
+
+  /**
+   * Multilingual string property message should be able to set and get.
+   * @covers ::setMessage
+   * @covers ::getMessage
+   */
+  public function testSetGetMessage() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newValue = new MECEMultilingualStringValue();
+    $newValue->setValue($this->getRandomString(), 'fi');
+    $newValue->setValue($this->getRandomString(), 'en');
+    $newValue->setValue($this->getRandomString(), 'sv');
+    $class->setMessage($newValue);
+    $this->assertEquals($newValue, $class->getMessage());
   }
 
   /**
