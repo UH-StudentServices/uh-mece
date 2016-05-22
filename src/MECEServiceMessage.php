@@ -469,7 +469,7 @@ class MECEServiceMessage {
     }
 
     // Check that property is found and its type of string
-    if (!isset($this->{$property}) || (isset($this->{$property}) && get_class($this->{$property}) == 'DateTime')) {
+    if (!isset($this->{$property}) || (!isset($this->$property) && get_class($this->{$property}) == 'DateTime')) {
       throw new LogicException("There is no such DateTime property as '$property'");
     }
 
