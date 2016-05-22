@@ -10,9 +10,6 @@ require_once __DIR__ . '/../src/MECEServiceMessage.php';
 /**
  * Class MECEServiceMessageTest
  *
- * @TODO Test Deadline
- * @TODO Test Expiration
- * @TODO Test Submitted
  * @TODO Test SourceId
  * @TODO Test Heading
  * @TODO Test Link
@@ -128,6 +125,109 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($default_priority, $class->getPriority());
     $class->setPriority($priority);
     $this->assertEquals($priority, $class->getPriority());
+  }
+
+  /**
+   * Test default datetime values.
+   * @covers ::__construct
+   * @covers ::getExpiration
+   * @covers ::getDeadline
+   * @covers ::getSubmitted
+   */
+  public function testDefaultDateTimeValues() {
+    $defaultValue = new DateTime('now', new DateTimeZone('Etc/Zulu'));
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $this->assertEquals($defaultValue, $class->getExpiration());
+    $this->assertEquals($defaultValue, $class->getDeadline());
+    $this->assertEquals($defaultValue, $class->getSubmitted());
+  }
+
+  /**
+   * Test setting and getting datetime values.
+   * @covers ::setExpiration
+   * @covers ::getExpiration
+   * @covers ::setDeadline
+   * @covers ::getDeadline
+   * @covers ::setSubmitted
+   * @covers ::getSubmitted
+   */
+  public function testSetGetDateProperties() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+
+    // Test setting expiration
+    $newValue = new DateTime('+5 day', new DateTimeZone('Etc/Zulu'));
+    $class->setExpiration($newValue);
+    $this->assertEquals($newValue, $class->getExpiration());
+
+    // Test setting deadline
+    $newValue = new DateTime('+3 day', new DateTimeZone('Etc/Zulu'));
+    $class->setDeadline($newValue);
+    $this->assertEquals($newValue, $class->getDeadline());
+
+    // Test setting submitted
+    $newValue = new DateTime('+1 day', new DateTimeZone('Etc/Zulu'));
+    $class->setSubmitted($newValue);
+    $this->assertEquals($newValue, $class->getSubmitted());
+  }
+
+  /**
+   * Expiration should not be able to set before submitted.
+   * @covers ::setExpiration
+   */
+  public function testInvalidExpirationDateTimeBeforeSubmitted() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newInvalidValue = new DateTime('-1 day', new DateTimeZone('Etc/Zulu'));
+    $this->setExpectedException(LogicException::class, 'Expiration can not be before submitted.');
+    $class->setExpiration($newInvalidValue);
+  }
+
+  /**
+   * Expiration should not be able to set before deadline.
+   * @covers ::setExpiration
+   * @covers ::setDeadline
+   */
+  public function testInvalidExpirationDateTimeBeforeDeadline() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $class->setExpiration(new DateTime('+3 day', new DateTimeZone('Etc/Zulu')));
+    $class->setDeadline(new DateTime('+2 day', new DateTimeZone('Etc/Zulu')));
+
+    $newInvalidValue = new DateTime('+1 day', new DateTimeZone('Etc/Zulu'));
+    $this->setExpectedException(LogicException::class, 'Expiration can not be before deadline.');
+    $class->setExpiration($newInvalidValue);
+  }
+
+  /**
+   * Submitted should not be able to be set after expiration.
+   * @covers ::setSubmitted
+   */
+  public function testInvalidSubmittedDateTimeAfterExpiration() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newInvalidValue = new DateTime('+1 day', new DateTimeZone('Etc/Zulu'));
+    $this->setExpectedException(LogicException::class, 'Submitted can not be after expiration.');
+    $class->setSubmitted($newInvalidValue);
+  }
+
+  /**
+   * Deadline should not be able to be set after expiration.
+   * @covers ::setDeadline
+   */
+  public function testInvalidDeadlineDateTimeAfterExpiration() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newInvalidValue = new DateTime('+1 day', new DateTimeZone('Etc/Zulu'));
+    $this->setExpectedException(LogicException::class, 'Deadline can not be after expiration.');
+    $class->setDeadline($newInvalidValue);
+  }
+
+  /**
+   * Deadline should be able to be set before submitted.
+   * @covers ::setDeadline
+   * @covers ::getDeadline
+   */
+  public function testValidDeadlineDateTimeBeforeSubmitted() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newValue = new DateTime('-1 day', new DateTimeZone('Etc/Zulu'));
+    $class->setDeadline($newValue);
+    $this->assertEquals($newValue, $class->getDeadline());
   }
 
 }
