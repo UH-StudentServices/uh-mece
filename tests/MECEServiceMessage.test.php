@@ -328,4 +328,51 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
     $class->setAvatarImageUrl(TRUE);
   }
 
+  /**
+   * Export should be able to export and JSON formatted object.
+   * @covers ::setSubmitted
+   * @covers ::setDeadline
+   * @covers ::setExpiration
+   * @covers ::setSourceId
+   * @covers ::setAvatarImageUrl
+   * @covers ::setHeading
+   * @covers ::setMessage
+   * @covers ::setLinkText
+   * @covers ::setLink
+   * @covers ::export
+   */
+  public function testExport() {
+    $class = new MECEServiceMessage($this->recipients, 'John Doe');
+    $defaultTimezone = new DateTimeZone('Etc/Zulu');
+    $class->setSubmitted(new DateTime('2016-01-24 11:00', $defaultTimezone));
+    $class->setDeadline(new DateTime('2016-01-24 13:00', $defaultTimezone));
+    $class->setExpiration(new DateTime('2016-01-24 15:00', $defaultTimezone));
+    $class->setSourceId('ABC12345');
+    $class->setAvatarImageUrl('https://www.example.com/avatarXy.jpg');
+
+    // Heading
+    $heading = new MECEMultilingualStringValue();
+    $heading->setValues(array('fi' => 'Heading FI', 'en' => 'Heading EN', 'sv' => 'Heading SV'));
+    $class->setHeading($heading);
+
+    // Message
+    $message = new MECEMultilingualStringValue();
+    $message->setValues(array('fi' => 'Message FI', 'en' => 'Message EN', 'sv' => 'Message SV'));
+    $class->setMessage($message);
+
+    // LinkText
+    $linkText = new MECEMultilingualStringValue();
+    $linkText->setValues(array('fi' => 'LinkText FI', 'en' => 'LinkText EN', 'sv' => 'LinkText SV'));
+    $class->setLinkText($linkText);
+
+    // Link
+    $link = new MECEMultilingualStringValue();
+    $link->setValues(array('fi' => 'http://www.example.com/fi', 'en' => 'http://www.example.com/en', 'sv' => 'http://www.example.com/sv'));
+    $class->setLink($link);
+
+    // Now finally assert
+    $expectedJSON = '{"recipients":["user1","user2","user3","user4"],"priority":"1","deadline":"2016-01-24T13:00:00Z","expiration":"2016-01-24T15:00:00Z","submitted":"2016-01-24T11:00:00Z","source":"John Doe","sourceId":"ABC12345","headingFI":"Heading FI","headingEN":"Heading EN","headingSV":"Heading SV","heading":"Heading FI","messageFI":"Message FI","messageEN":"Message EN","messageSV":"Message SV","message":"Message FI","linkTextFI":"LinkText FI","linkTextEN":"LinkText EN","linkTextSV":"LinkText SV","linkText":"LinkText FI","linkFI":"http:\/\/www.example.com\/fi","linkEN":"http:\/\/www.example.com\/en","linkSV":"http:\/\/www.example.com\/sv","link":"http:\/\/www.example.com\/fi","avatarImageUrl":"https:\/\/www.example.com\/avatarXy.jpg"}';
+    $this->assertEquals($expectedJSON, $class->export());
+  }
+
 }
