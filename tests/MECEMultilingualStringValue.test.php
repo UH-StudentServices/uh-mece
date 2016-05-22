@@ -7,6 +7,9 @@
 
 require_once __DIR__ . '/../src/MECEMultilingualStringValue.php';
 
+/**
+ * @coversDefaultClass \MECEMultilingualStringValue
+ */
 class MECEMultilingualStringValueTest extends PHPUnit_Framework_TestCase {
 
   /**
@@ -18,6 +21,10 @@ class MECEMultilingualStringValueTest extends PHPUnit_Framework_TestCase {
     $this->class = new MECEMultilingualStringValue();
   }
 
+  /**
+   * @covers ::__construct
+   * @covers ::getSupportedLanguages
+   */
   public function testConstruct() {
 
     // Assert default supported languages
@@ -29,21 +36,35 @@ class MECEMultilingualStringValueTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(array('ru'), $class->getSupportedLanguages());
   }
 
+  /**
+   * @covers ::setValue
+   */
   public function testSetValueLangaugeMustBeString() {
     $this->setExpectedException(InvalidArgumentException::class, 'Language must be an string type.');
     $this->class->setValue('value', TRUE);
   }
 
+  /**
+   * @covers ::setValue
+   */
   public function testSetValueValueMustBeString() {
     $this->setExpectedException(InvalidArgumentException::class, 'Value must be an string type.');
     $this->class->setValue(TRUE, 'fi');
   }
 
+  /**
+   * @covers ::setValue
+   */
   public function testSetValueNotSupportedLanguage() {
     $this->setExpectedException(InvalidArgumentException::class, 'Language "ru" is not supported.');
     $this->class->setValue('value', 'ru');
   }
 
+  /**
+   * @covers ::setValue
+   * @covers ::setValues
+   * @covers ::getValues
+   */
   public function testValues() {
 
     // Test setValue() and getValue()
@@ -62,6 +83,10 @@ class MECEMultilingualStringValueTest extends PHPUnit_Framework_TestCase {
 
   }
 
+  /**
+   * @covers ::setSupportedLanguages
+   * @covers ::getSupportedLanguages
+   */
   public function testSupportedLanguages() {
     // Test setter and getter
     $values = array('fi', 'en');

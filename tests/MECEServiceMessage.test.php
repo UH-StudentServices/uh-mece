@@ -20,6 +20,8 @@ require_once __DIR__ . '/../src/MECEServiceMessage.php';
  * @TODO Test LinkText
  * @TODO Test Message
  * @TODO Test AvatarImageUrl
+ *
+ * @coversDefaultClass \MECEServiceMessage
  */
 class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
 
@@ -32,6 +34,9 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Test recipients.
+   * @covers ::setRecipients
+   * @covers ::getRecipients
+   * @covers ::appendRecipients
    */
   public function testRecipients() {
 
@@ -52,6 +57,7 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Test recipient InvalidArgumentException.
+   * @covers ::appendRecipient
    */
   public function testRecipientsInvalidArgumentException() {
     $this->setExpectedException(InvalidArgumentException::class, 'Recipient argument must be string.');
@@ -61,6 +67,7 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Test that source type gets checked.
+   * @covers ::__construct
    */
   public function testSourceMustBeString() {
     $this->setExpectedException(InvalidArgumentException::class, 'Source must be an string.');
@@ -69,6 +76,8 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Test that source gets set.
+   * @covers ::getSource
+   * @covers ::setSource
    */
   public function testSource() {
 
