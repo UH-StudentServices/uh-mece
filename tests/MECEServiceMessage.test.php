@@ -10,7 +10,6 @@ require_once __DIR__ . '/../src/MECEServiceMessage.php';
 /**
  * Class MECEServiceMessageTest
  *
- * @TODO Test Priority
  * @TODO Test Deadline
  * @TODO Test Expiration
  * @TODO Test Submitted
@@ -29,7 +28,11 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
   private $source;
 
   public function setUp() {
-    $this->source = md5(time());
+    $this->source = $this->getRandomString();
+  }
+
+  private function getRandomString() {
+    return md5(uniqid(time(), TRUE));
   }
 
   /**
@@ -94,6 +97,37 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
     $this->setExpectedException(InvalidArgumentException::class, "Given value type 'boolean' for 'source' property is not a string.");
     $class->setSource(TRUE);
 
+  }
+
+  /**
+   * Test that priority accepts only string type
+   * @covers ::__construct
+   * @covers ::setPriority
+   */
+  public function testPriorityException() {
+    $this->setExpectedException(InvalidArgumentException::class, "Given value type 'boolean' for 'priority' property is not a string.");
+    new MECEServiceMessage($this->recipients, $this->source, array('priority' => TRUE));
+  }
+
+  /**
+   * Test priority.
+   * @covers ::__construct
+   * @covers ::setPriority
+   * @covers ::getPriority
+   */
+  public function testPriority() {
+    $priority = $this->getRandomString();
+
+    // Test that priority gets set through constructor
+    $class = new MECEServiceMessage($this->recipients, $this->source, array('priority' => $priority));
+    $this->assertEquals($priority, $class->getPriority());
+
+    // Test that priority gets set and get properly
+    $default_priority = '1';
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $this->assertEquals($default_priority, $class->getPriority());
+    $class->setPriority($priority);
+    $this->assertEquals($priority, $class->getPriority());
   }
 
 }
