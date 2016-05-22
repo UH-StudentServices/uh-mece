@@ -37,12 +37,12 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
 
     // Test recipients on construct
     $class = new MECEServiceMessage($this->recipients, $this->source);
-    $this->assertArraySubset($this->recipients, $class->getRecipients());
+    $this->assertEquals($this->recipients, $class->getRecipients());
 
     // Test recipients set directly
     $new_recipients = array('user5', 'user6');
     $class->setRecipients($new_recipients);
-    $this->assertArraySubset($new_recipients, $class->getRecipients());
+    $this->assertEquals($new_recipients, $class->getRecipients());
 
     // Test recipient appending
     $new_recipient = 'user7';
