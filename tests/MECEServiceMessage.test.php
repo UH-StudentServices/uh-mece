@@ -165,6 +165,40 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Expiration should not be able to be set with invalid timezone.
+   * @covers ::setExpiration
+   */
+  public function testExpirationInvalidTimeZone() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $incorrectValue = new DateTime('+5 day', new DateTimeZone('Europe/Helsinki'));
+    $this->setExpectedException(LogicException::class, 'expiration DateTime value must be in timezone "Etc/Zulu"');
+    $class->setExpiration($incorrectValue);
+  }
+
+  /**
+   * Submitted should not be able to be set with invalid timezone.
+   * @covers ::setSubmitted
+   */
+  public function testSubmittedInvalidTimeZone() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $incorrectValue = new DateTime('-1 day', new DateTimeZone('Europe/Helsinki'));
+    $this->setExpectedException(LogicException::class, 'submitted DateTime value must be in timezone "Etc/Zulu"');
+    $class->setSubmitted($incorrectValue);
+  }
+
+  /**
+   * Deadline should not be able to be set with invalid timezone.
+   * @covers ::setDeadline
+   */
+  public function testDeadlineInvalidTimeZone() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $class->setExpiration(new DateTime('+5 day', new DateTimeZone('Etc/Zulu')));
+    $incorrectValue = new DateTime('+3 day', new DateTimeZone('Europe/Helsinki'));
+    $this->setExpectedException(LogicException::class, 'deadline DateTime value must be in timezone "Etc/Zulu"');
+    $class->setDeadline($incorrectValue);
+  }
+
+  /**
    * Expiration should not be able to set before submitted.
    * @covers ::setExpiration
    */
