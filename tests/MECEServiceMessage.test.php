@@ -10,12 +10,10 @@ require_once __DIR__ . '/../src/MECEServiceMessage.php';
 /**
  * Class MECEServiceMessageTest
  *
- * @TODO Test SourceId
  * @TODO Test Heading
  * @TODO Test Link
  * @TODO Test LinkText
  * @TODO Test Message
- * @TODO Test AvatarImageUrl
  *
  * @coversDefaultClass \MECEServiceMessage
  */
@@ -228,6 +226,50 @@ class MECEServiceMessageTest extends PHPUnit_Framework_TestCase {
     $newValue = new DateTime('-1 day', new DateTimeZone('Etc/Zulu'));
     $class->setDeadline($newValue);
     $this->assertEquals($newValue, $class->getDeadline());
+  }
+
+  /**
+   * Text property SourceId should be able to set and get the value.
+   * @covers ::setSourceId
+   * @covers ::getSourceId
+   */
+  public function testSetGetSourceId() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newValue = $this->getRandomString();
+    $class->setSourceId($newValue);
+    $this->assertEquals($newValue, $class->getSourceId());
+  }
+
+  /**
+   * SourceId should be always an string.
+   * @covers ::setSourceId
+   */
+  public function testInvalidSourceId() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $this->setExpectedException(InvalidArgumentException::class, "Given value type 'boolean' for 'sourceId' property is not a string.");
+    $class->setSourceId(TRUE);
+  }
+
+  /**
+   * Text property avatarImageUrl should be able to set and get the value.
+   * @covers ::setAvatarImageUrl
+   * @covers ::getAvatarImageUrl
+   */
+  public function testSetGetAvatarImageUrl() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $newValue = $this->getRandomString();
+    $class->setAvatarImageUrl($newValue);
+    $this->assertEquals($newValue, $class->getAvatarImageUrl());
+  }
+
+  /**
+   * AvatarImageUrl should be always an string.
+   * @covers ::setAvatarImageUrl
+   */
+  public function testInvalidAvatarImageUrl() {
+    $class = new MECEServiceMessage($this->recipients, $this->source);
+    $this->setExpectedException(InvalidArgumentException::class, "Given value type 'boolean' for 'avatarImageUrl' property is not a string.");
+    $class->setAvatarImageUrl(TRUE);
   }
 
 }
