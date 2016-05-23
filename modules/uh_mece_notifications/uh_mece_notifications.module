@@ -1,0 +1,61 @@
+<?php
+/**
+ * @license GPL, or GNU General Public License, version 3
+ * @license http://opensource.org/licenses/GPL-3.0
+ * @see README.md how to contribute to this project
+ */
+
+/**
+ * Function that builds an message instance out from given $recipients and
+ * $priority.
+ *
+ * @param array $recipients
+ * @param string $priority
+ * @return NULL|\UniversityofHelsinki\MECE\Notification
+ */
+function uh_mece_nofications_get_instance(array $recipients = array(), $priority = '1') {
+  // Create instance of notification message
+  $languages = locale_language_list('language');
+  $options = array(
+    'supportedLanguages' => array_values($languages),
+    'priority' => is_string($priority) ? $priority : '1',
+  );
+  $source = variable_get('uh_mece_auth_source', '');
+
+  try {
+    $message = new \UniversityofHelsinki\MECE\Notification($recipients, $source, $options);
+  }
+  catch (Exception $e) {
+    watchdog('uh_mece_notifications', 'Could not instantiate notification message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+    return NULL;
+  }
+
+  return $message;
+}
+
+/**
+ * Callback for sending given $message to service.
+ * @param \UniversityofHelsinki\MECE\Notification $message
+ * @return bool|object
+ */
+function uh_mece_notifications_send(\UniversityofHelsinki\MECE\Notification $message) {
+
+  // Ensure we have set host
+  $endpoint_url = variable_get('uh_mece_http_endpoint_url', '');
+  if (empty($endpoint_url)) {
+    watchdog('uh_mece_notifications', 'Can not send notification with endpoint URL is missing.', array(), WATCHDOG_WARNING);
+    return FALSE;
+  }
+
+  // Export the message as JSON
+  try {
+    $body = $message->export();
+  }
+  catch (Exception $e) {
+    watchdog('uh_mece_notifications', 'Failed exporting message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  return drupal_http_request($endpoint_url, array('method' => variable_get('uh_mece_http_method', 'post'), 'data' => $body));
+
+}
