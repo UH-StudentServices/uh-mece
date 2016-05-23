@@ -12,4 +12,5 @@ function uh_mece_uninstall() {
   variable_del('uh_mece_http_endpoint_url');
   variable_del('uh_mece_http_method');
   variable_del('uh_mece_auth_source');
+  variable_del('uh_mece_empty_string_enabled');
 }

@@ -11,9 +11,13 @@
  *
  * @param array $recipients
  * @param string $priority
+ * @param NULL|int $expire
+ *   Expire time in seconds. This will set the message to expire after given
+ *   time (example: 60 would expire notification in 60 seconds from now).
+ *   Optional argument, default: 1 month
  * @return NULL|\UniversityofHelsinki\MECE\Notification
  */
-function uh_mece_nofications_get_instance(array $recipients = array(), $priority = '1') {
+function uh_mece_nofications_get_instance(array $recipients = array(), $priority = '1', $expire = NULL) {
   // Create instance of notification message
   $languages = locale_language_list('language');
   $options = array(
@@ -24,6 +28,13 @@ function uh_mece_nofications_get_instance(array $recipients = array(), $priority
 
   try {
     $message = new \UniversityofHelsinki\MECE\Notification($recipients, $source, $options);
+
+    // Set expire
+    $offset = is_null($expire) ? (int) variable_get('uhc_mece_expire', 60*24*30) : (int) $expire;
+    $expiration = $message->getExpiration();
+    uh_mece_notifications_set_offset($expiration, $offset);
+    $message->setExpiration($expiration);
+
   }
   catch (Exception $e) {
     watchdog('uh_mece_notifications', 'Could not instantiate notification message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
@@ -31,6 +42,18 @@ function uh_mece_nofications_get_instance(array $recipients = array(), $priority
   }
 
   return $message;
+}
+
+/**
+ * Function for setting an $offset for given $date.
+ * @param DateTime $date
+ *   The date object to be modified.
+ * @param int $offset
+ *   Offset in seconds.
+ */
+function uh_mece_notifications_set_offset(DateTime &$date, $offset) {
+  $new_timestamp = $date->getTimestamp() + $offset;
+  $date->setTimestamp($new_timestamp);
 }
 
 /**

@@ -11,6 +11,24 @@
 function uh_mece_configuration() {
   $form = array();
 
+  // General settings
+  $form['uh_mece'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('General settings'),
+    'uh_mece_empty_string_enabled' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Send empty strings if no value found'),
+      '#description' => t('When checked, messages will contain properties that exist but provides empty string.'),
+      '#default_value' => variable_get('uh_mece_empty_string_enabled', FALSE),
+    ),
+    'uhc_mece_expire' => array(
+      '#title' => t('Offset expire'),
+      '#description' => t('Enter number of seconds when messages should expire. By default it\'s 1 month in seconds.'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('uhc_mece_expire', 60*24*30),
+    ),
+  );
+
   // REST server connection
   $form['uh_mece_http'] = array(
     '#type' => 'fieldset',
@@ -46,4 +64,13 @@ function uh_mece_configuration() {
   );
 
   return system_settings_form($form);
+}
+
+/**
+ * Validation callback for configuration.
+ */
+function uh_mece_configuration_validate(&$form, &$form_state) {
+  if (!is_numeric($form_state['values']['uhc_mece_expire'])) {
+    form_set_error('uhc_mece_expire', t('Expire must be numerical value'));
+  }
 }
