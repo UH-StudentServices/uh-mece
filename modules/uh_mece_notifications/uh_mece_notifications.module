@@ -45,6 +45,24 @@ function uh_mece_nofications_get_instance(array $recipients = array(), $priority
 }
 
 /**
+ * Function for getting MultilingualStringValue with given languages. If
+ * languages not provided, then use site's enabled languages.
+ * @param array $languages
+ * @return NULL|\UniversityofHelsinki\MECE\MultilingualStringValue
+ */
+function uh_mece_notifications_get_multilingual_value(array $languages = array()) {
+  $languages = !empty($languages) ? $languages : array_values(locale_language_list('language'));
+  try {
+    $value = new \UniversityofHelsinki\MECE\MultilingualStringValue(array('supportedLanguages' => $languages));
+  }
+  catch (Exception $e) {
+    watchdog('uh_mece_notifications', 'Could not get multilingual value because "@msg"', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+    return NULL;
+  }
+  return $value;
+}
+
+/**
  * Function for setting an $offset for given $date.
  * @param DateTime $date
  *   The date object to be modified.
