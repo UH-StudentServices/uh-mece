@@ -18,30 +18,38 @@
  * @return NULL|\UniversityofHelsinki\MECE\Notification
  */
 function uh_mece_notifications_get_instance(array $recipients = array(), $priority = '1', $expire = NULL) {
-  // Create instance of notification message
-  $languages = locale_language_list('language');
-  $options = array(
-    'supportedLanguages' => array_values($languages),
-    'priority' => is_string($priority) ? $priority : '1',
-  );
-  $source = variable_get('uh_mece_auth_source', '');
 
-  try {
-    $message = new \UniversityofHelsinki\MECE\Notification($recipients, $source, $options);
+  // Load library
+  if (($library = libraries_load('mece_php')) && !empty($library['loaded'])) {
 
-    // Set expire
-    $offset = is_null($expire) ? (int) variable_get('uhc_mece_expire', 60*24*30) : (int) $expire;
-    $expiration = $message->getExpiration();
-    uh_mece_notifications_set_offset($expiration, $offset);
-    $message->setExpiration($expiration);
+    // Create instance of notification message
+    $languages = locale_language_list('language');
+    $options = array(
+      'supportedLanguages' => array_values($languages),
+      'priority' => is_string($priority) ? $priority : '1',
+    );
+    $source = variable_get('uh_mece_auth_source', '');
 
+    try {
+      $message = new \UniversityofHelsinki\MECE\Notification($recipients, $source, $options);
+
+      // Set expire
+      $offset = is_null($expire) ? (int) variable_get('uhc_mece_expire', 60 * 24 * 30) : (int) $expire;
+      $expiration = $message->getExpiration();
+      uh_mece_notifications_set_offset($expiration, $offset);
+      $message->setExpiration($expiration);
+
+    } catch (Exception $e) {
+      watchdog('uh_mece_notifications', 'Could not instantiate notification message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+      return NULL;
+    }
+
+    return $message;
   }
-  catch (Exception $e) {
-    watchdog('uh_mece_notifications', 'Could not instantiate notification message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+  else {
+    watchdog('uh_mece_notifications', 'Could not instantiate notification message due to missing library.', array(), WATCHDOG_ERROR);
     return NULL;
   }
-
-  return $message;
 }
 
 /**
@@ -51,15 +59,21 @@ function uh_mece_notifications_get_instance(array $recipients = array(), $priori
  * @return NULL|\UniversityofHelsinki\MECE\MultilingualStringValue
  */
 function uh_mece_notifications_get_multilingual_value(array $languages = array()) {
-  $languages = !empty($languages) ? $languages : array_values(locale_language_list('language'));
-  try {
-    $value = new \UniversityofHelsinki\MECE\MultilingualStringValue(array('supportedLanguages' => $languages));
+  // Load library
+  if (($library = libraries_load('mece_php')) && !empty($library['loaded'])) {
+    $languages = !empty($languages) ? $languages : array_values(locale_language_list('language'));
+    try {
+      $value = new \UniversityofHelsinki\MECE\MultilingualStringValue(array('supportedLanguages' => $languages));
+    } catch (Exception $e) {
+      watchdog('uh_mece_notifications', 'Could not get multilingual value because "@msg"', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+      return NULL;
+    }
+    return $value;
   }
-  catch (Exception $e) {
-    watchdog('uh_mece_notifications', 'Could not get multilingual value because "@msg"', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+  else {
+    watchdog('uh_mece_notifications', 'Could not get multilingual value because library could not be loaded.', array(), WATCHDOG_ERROR);
     return NULL;
   }
-  return $value;
 }
 
 /**
