@@ -12,7 +12,7 @@ function mymodule_node_insert($node) {
   if ($node->type == 'event') {
     // Get instance
     $recipients = ['matti', 'liisa'];
-    $message = uh_mece_nofications_get_instance($recipients);
+    $message = uh_mece_notifications_get_instance($recipients);
 
     $message_text = uh_mece_notifications_get_multilingual_value();
     $message_text->setValue('Luotiin uusi tapahtuma', 'fi');

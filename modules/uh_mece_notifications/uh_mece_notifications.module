@@ -17,7 +17,7 @@
  *   Optional argument, default: 1 month
  * @return NULL|\UniversityofHelsinki\MECE\Notification
  */
-function uh_mece_nofications_get_instance(array $recipients = array(), $priority = '1', $expire = NULL) {
+function uh_mece_notifications_get_instance(array $recipients = array(), $priority = '1', $expire = NULL) {
   // Create instance of notification message
   $languages = locale_language_list('language');
   $options = array(
