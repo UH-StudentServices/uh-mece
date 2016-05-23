@@ -10,7 +10,9 @@
  */
 function uh_mece_configuration() {
   $form = array();
-  $form['uh_mece'] = array(
+
+  // REST server connection
+  $form['uh_mece_http'] = array(
     '#type' => 'fieldset',
     '#title' => t('REST server connection configuration'),
     'uh_mece_http_host' => array(
@@ -30,5 +32,18 @@ function uh_mece_configuration() {
       '#default_value' => variable_get('uh_mece_http_method', 'post'),
     ),
   );
+
+  // Authentication / identity
+  $form['uh_mece_auth'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Authentication configuration'),
+    'uh_mece_auth_source' => array(
+      '#title' => t('Identity: Source'),
+      '#description' => t('Which "source" you want to ship the message as.'),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('uh_mece_auth_source', ''),
+    ),
+  );
+
   return system_settings_form($form);
 }
