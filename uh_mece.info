@@ -5,3 +5,4 @@ package = University of Helsinki
 version = 7.x-1.x-dev
 files[] = src/MECEMultilingualStringValue.php
 files[] = src/MECEServiceMessage.php
+dependencies[] = libraries
