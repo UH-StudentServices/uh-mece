@@ -24,7 +24,12 @@ function mymodule_node_insert($node) {
     $link = uh_mece_notifications_get_multilingual_value();
     $uri = entity_uri('node', $node);
     foreach (array('fi', 'en', 'sv') as $lang) {
-      $link_text->setValue($node->title, $lang);
+      if (isset($node->title_field[$lang]['value'])) {
+        $link_text->setValue($node->title_field[$lang]['value'], $lang);
+      }
+      else {
+        $link_text->setValue($node->title, $lang);
+      }
       $link->setValue(url($uri['path'], array('language' => $lang)), $lang);
     }
     $message->setLinkText($link_text);
