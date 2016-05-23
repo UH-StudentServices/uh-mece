@@ -35,3 +35,31 @@ function uh_mece_libraries_info() {
 function uh_mece_library_version_callback() {
   return TRUE;
 }
+
+/**
+ * Implements hook_permission().
+ */
+function uh_mece_permission() {
+  return array(
+    'administer uh_mece' => array(
+      'title' => t('Administer MECE service configuration'),
+      'description' => t('Perform configuration changes for MECE service connection.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function uh_mece_menu() {
+  $items = array();
+  $items['admin/config/services/uh_mece'] = array(
+    'title' => t('UH Message Center configuration'),
+    'description' => t('Configure your UH Message Center connection.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('uh_mece_configuration'),
+    'access arguments' => array('administer uh_mece'),
+    'file' => 'uh_mece.admin.inc',
+  );
+  return $items;
+}

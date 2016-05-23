@@ -1,0 +1,14 @@
+<?php
+/**
+ * @license GPL, or GNU General Public License, version 3
+ * @license http://opensource.org/licenses/GPL-3.0
+ * @see README.md how to contribute to this project
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function uh_mece_uninstall() {
+  variable_del('uh_mece_http_host');
+  variable_del('uh_mece_http_method');
+}
