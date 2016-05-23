@@ -5,8 +5,8 @@ Center (MECE) maintained by Center for Information Technology (University of
 Helsinki).
 
 ## Requirements
-* Libraries module
-* Requires [MECE PHP library](https://github.com/UniversityofHelsinki/mece-php) 
+* [Libraries module](https://www.drupal.org/project/libraries)
+* [MECE PHP library](https://github.com/UniversityofHelsinki/mece-php) 
 
 ## Planned Milestones
 * Implement submodule for providing utility functions for creating messages
