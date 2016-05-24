@@ -6,10 +6,13 @@ Helsinki).
 
 ## Requirements
 * [Libraries module](https://www.drupal.org/project/libraries)
-* [MECE PHP library](https://github.com/UniversityofHelsinki/mece-php) 
+* [MECE PHP library](https://github.com/UniversityofHelsinki/mece-php)
 
 ## Planned Milestones
 * Implement submodule for rendering an JS widget (as block perhaps?)
+
+## Screenshot
+![Screenshot of configuration page](screenshot-configuration-example.png "Configuration page")
 
 ## Questions
 Please post your question to doo-projekti@helsinki.fi
