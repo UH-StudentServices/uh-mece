@@ -25,7 +25,7 @@ function uh_mece_configuration() {
       '#title' => t('Offset expire'),
       '#description' => t('Enter number of seconds when messages should expire. By default it\'s 1 month in seconds.'),
       '#type' => 'textfield',
-      '#default_value' => variable_get('uhc_mece_expire', 60*24*30),
+      '#default_value' => variable_get('uhc_mece_expire', 60*60*24*30),
     ),
   );
 
