@@ -34,10 +34,7 @@ function uh_mece_libraries_info() {
  * information or technique to detect it.
  */
 function uh_mece_library_version_callback() {
-  if (($library = libraries_load('mece_php')) && !empty($library['loaded'])) {
-    $message = new \UniversityofHelsinki\MECE\Message(array(), '');
-    return $message->getVersion();
-  }
+  return TRUE;
 }
 
 /**
