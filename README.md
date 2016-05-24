@@ -9,7 +9,6 @@ Helsinki).
 * [MECE PHP library](https://github.com/UniversityofHelsinki/mece-php) 
 
 ## Planned Milestones
-* Implement submodule for providing utility functions for creating messages
 * Implement submodule for rendering an JS widget (as block perhaps?)
 
 ## Questions
