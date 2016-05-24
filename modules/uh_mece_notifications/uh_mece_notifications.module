@@ -39,6 +39,9 @@ function uh_mece_notifications_get_instance(array $recipients = array(), $priori
       uh_mece_notifications_set_offset($expiration, $offset);
       $message->setExpiration($expiration);
 
+      // Set deadline as expire
+      $message->setDeadline($expiration);
+
     } catch (Exception $e) {
       watchdog('uh_mece_notifications', 'Could not instantiate notification message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
       return NULL;
