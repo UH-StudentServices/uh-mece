@@ -13,7 +13,7 @@ function uh_mece_libraries_info() {
   $libraries['mece_php'] = array(
     'name' => 'MECE PHP Library',
     'vendor url' => 'https://github.com/UniversityofHelsinki/mece-php',
-    'download url' => 'https://github.com/UniversityofHelsinki/mece-php/archive/v1.0.0.zip',
+    'download url' => 'https://github.com/UniversityofHelsinki/mece-php/archive/v1.0.1.zip',
     'path' => 'src/UniversityofHelsinki/MECE',
     'version callback' => 'uh_mece_library_version_callback',
     'files' => array(
