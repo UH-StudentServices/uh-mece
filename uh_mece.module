@@ -20,7 +20,7 @@ function uh_mece_libraries_info() {
       'php' => array(
         'MultilingualStringValue.php',
         'Message.php',
-        'Notification.php',
+        'NotificationMessage.php',
       ),
     ),
   );

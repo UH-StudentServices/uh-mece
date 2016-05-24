@@ -15,7 +15,7 @@
  *   Expire time in seconds. This will set the message to expire after given
  *   time (example: 60 would expire notification in 60 seconds from now).
  *   Optional argument, default: 1 month
- * @return NULL|\UniversityofHelsinki\MECE\Notification
+ * @return NULL|\UniversityofHelsinki\MECE\NotificationMessage
  */
 function uh_mece_notifications_get_instance(array $recipients = array(), $priority = '1', $expire = NULL) {
 
@@ -31,7 +31,7 @@ function uh_mece_notifications_get_instance(array $recipients = array(), $priori
     $source = variable_get('uh_mece_auth_source', '');
 
     try {
-      $message = new \UniversityofHelsinki\MECE\Notification($recipients, $source, $options);
+      $message = new \UniversityofHelsinki\MECE\NotificationMessage($recipients, $source, $options);
 
       // Set expire
       $offset = is_null($expire) ? (int) variable_get('uhc_mece_expire', 60 * 24 * 30) : (int) $expire;
@@ -90,10 +90,10 @@ function uh_mece_notifications_set_offset(DateTime &$date, $offset) {
 
 /**
  * Callback for sending given $message to service.
- * @param \UniversityofHelsinki\MECE\Notification $message
+ * @param \UniversityofHelsinki\MECE\NotificationMessage $message
  * @return bool|object
  */
-function uh_mece_notifications_send(\UniversityofHelsinki\MECE\Notification $message) {
+function uh_mece_notifications_send(\UniversityofHelsinki\MECE\NotificationMessage $message) {
 
   // Ensure we have set host
   $endpoint_url = variable_get('uh_mece_http_endpoint_url', '');
