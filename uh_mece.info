@@ -2,5 +2,5 @@ name = University of Helsinki, MECE
 description = Provides ability to communicate with Message Center (MECE) maintained by Center for Information Technology (University of Helsinki).
 core = 7.x
 package = University of Helsinki
-version = 7.x-1.0
+version = 7.x-1.1
 dependencies[] = libraries
