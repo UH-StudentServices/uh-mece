@@ -1,6 +1,6 @@
 # University of Helsinki, MECE changelog
 
-## 7.x-1.x-dev
+## 7.x-1.2
 
 * Added possibility to alter outgoing request with
   `hook_uh_mece_notifications_request_alter()` (issue #1)
