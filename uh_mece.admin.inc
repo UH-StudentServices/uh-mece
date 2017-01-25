@@ -38,10 +38,10 @@ function uh_mece_configuration() {
       '#title' => t('Submission HTTP method'),
       '#description' => t('Select the method you would like to use for sending messages.'),
       '#options' => array(
-        'post' => 'POST',
-        'put' => 'PUT',
+        'POST' => 'POST',
+        'PUT' => 'PUT',
       ),
-      '#default_value' => variable_get('uh_mece_http_method', 'post'),
+      '#default_value' => variable_get('uh_mece_http_method', 'POST'),
     ),
   );
 

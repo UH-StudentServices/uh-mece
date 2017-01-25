@@ -113,6 +113,6 @@ function uh_mece_notifications_send(\UniversityofHelsinki\MECE\NotificationMessa
     return FALSE;
   }
 
-  return drupal_http_request($endpoint_url, array('method' => variable_get('uh_mece_http_method', 'post'), 'data' => $body));
+  return drupal_http_request($endpoint_url, array('method' => variable_get('uh_mece_http_method', 'POST'), 'data' => $body));
 
 }

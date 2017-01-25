@@ -2,6 +2,8 @@
 
 ## 7.x-1.x-dev
 
+* Fixed problem where REST requests method was not uppercase as required in
+  RFC-7231 (issue #2)
 
 ## 7.x-1.1
 
