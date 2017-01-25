@@ -1,0 +1,22 @@
+<?php
+/**
+ * @license GPL, or GNU General Public License, version 3
+ * @license http://opensource.org/licenses/GPL-3.0
+ * @see README.md how to contribute to this project
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function uh_mece_uninstall() {
+  variable_del('uh_mece_http_endpoint_url');
+  variable_del('uh_mece_http_method');
+  variable_del('uh_mece_auth_source');
+}
+
+/**
+ * Remove configuration variable that had no effect on anything.
+ */
+function uh_mece_update_7001() {
+  variable_del('uh_mece_empty_string_enabled');
+}

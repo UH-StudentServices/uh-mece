@@ -1,0 +1,66 @@
+<?php
+/**
+ * @license GPL, or GNU General Public License, version 3
+ * @license http://opensource.org/licenses/GPL-3.0
+ * @see README.md how to contribute to this project
+ */
+
+/**
+ * Implements hook_libraries_info().
+ */
+function uh_mece_libraries_info() {
+  $libraries = array();
+  $libraries['mece_php'] = array(
+    'name' => 'MECE PHP Library',
+    'vendor url' => 'https://github.com/UniversityofHelsinki/mece-php',
+    'download url' => 'https://github.com/UniversityofHelsinki/mece-php/archive/v1.1.0.zip',
+    'path' => 'src/UniversityofHelsinki/MECE',
+    'version callback' => 'uh_mece_library_version_callback',
+    'files' => array(
+      'php' => array(
+        'VersionTrait.php',
+        'MultilingualStringValue.php',
+        'Message.php',
+        'NotificationMessage.php',
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Callback for bypassing version of MECE PHP Client as it does not provide any
+ * information or technique to detect it.
+ */
+function uh_mece_library_version_callback() {
+  return TRUE;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function uh_mece_permission() {
+  return array(
+    'administer uh_mece' => array(
+      'title' => t('Administer MECE service configuration'),
+      'description' => t('Perform configuration changes for MECE service connection.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function uh_mece_menu() {
+  $items = array();
+  $items['admin/config/services/uh_mece'] = array(
+    'title' => t('UH Message Center configuration'),
+    'description' => t('Configure your UH Message Center connection.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('uh_mece_configuration'),
+    'access arguments' => array('administer uh_mece'),
+    'file' => 'uh_mece.admin.inc',
+  );
+  return $items;
+}

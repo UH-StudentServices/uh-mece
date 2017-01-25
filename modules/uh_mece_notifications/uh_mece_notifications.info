@@ -1,0 +1,6 @@
+name = University of Helsinki, MECE Notifications
+description = Provides ability to sending notification messages.
+core = 7.x
+package = University of Helsinki
+version = 7.x-1.2
+dependencies[] = uh_mece

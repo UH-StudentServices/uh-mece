@@ -1,0 +1,125 @@
+<?php
+/**
+ * @license GPL, or GNU General Public License, version 3
+ * @license http://opensource.org/licenses/GPL-3.0
+ * @see README.md how to contribute to this project
+ */
+
+/**
+ * Function that builds an message instance out from given $recipients and
+ * $priority.
+ *
+ * @param array $recipients
+ * @param string $priority
+ * @param NULL|int $expire
+ *   Expire time in seconds. This will set the message to expire after given
+ *   time (example: 60 would expire notification in 60 seconds from now).
+ *   Optional argument, default: 1 month
+ * @return NULL|\UniversityofHelsinki\MECE\NotificationMessage
+ */
+function uh_mece_notifications_get_instance(array $recipients = array(), $priority = '1', $expire = NULL) {
+
+  // Load library
+  if (($library = libraries_load('mece_php')) && !empty($library['loaded'])) {
+
+    // Create instance of notification message
+    $languages = locale_language_list('language');
+    $options = array(
+      'supportedLanguages' => array_values($languages),
+      'priority' => is_string($priority) ? $priority : '1',
+    );
+    $source = variable_get('uh_mece_auth_source', '');
+
+    try {
+      $message = new \UniversityofHelsinki\MECE\NotificationMessage($recipients, $source, $options);
+
+      // Set expire
+      $offset = is_null($expire) ? (int) variable_get('uhc_mece_expire', 60 * 60 * 24 * 30) : (int) $expire;
+      $expiration = $message->getExpiration();
+      uh_mece_notifications_set_offset($expiration, $offset);
+      $message->setExpiration($expiration);
+
+      // Set deadline as expire
+      $message->setDeadline($expiration);
+
+    } catch (Exception $e) {
+      watchdog('uh_mece_notifications', 'Could not instantiate notification message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+      return NULL;
+    }
+
+    return $message;
+  }
+  else {
+    watchdog('uh_mece_notifications', 'Could not instantiate notification message due to missing library.', array(), WATCHDOG_ERROR);
+    return NULL;
+  }
+}
+
+/**
+ * Function for getting MultilingualStringValue with given languages. If
+ * languages not provided, then use site's enabled languages.
+ * @param array $languages
+ * @return NULL|\UniversityofHelsinki\MECE\MultilingualStringValue
+ */
+function uh_mece_notifications_get_multilingual_value(array $languages = array()) {
+  // Load library
+  if (($library = libraries_load('mece_php')) && !empty($library['loaded'])) {
+    $languages = !empty($languages) ? $languages : array_values(locale_language_list('language'));
+    try {
+      $value = new \UniversityofHelsinki\MECE\MultilingualStringValue(array('supportedLanguages' => $languages));
+    } catch (Exception $e) {
+      watchdog('uh_mece_notifications', 'Could not get multilingual value because "@msg"', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+      return NULL;
+    }
+    return $value;
+  }
+  else {
+    watchdog('uh_mece_notifications', 'Could not get multilingual value because library could not be loaded.', array(), WATCHDOG_ERROR);
+    return NULL;
+  }
+}
+
+/**
+ * Function for setting an $offset for given $date.
+ * @param DateTime $date
+ *   The date object to be modified.
+ * @param int $offset
+ *   Offset in seconds.
+ */
+function uh_mece_notifications_set_offset(DateTime &$date, $offset) {
+  $date->add(new DateInterval('PT' . $offset .'S'));
+}
+
+/**
+ * Callback for sending given $message to service.
+ * @param \UniversityofHelsinki\MECE\NotificationMessage $message
+ * @return bool|object
+ */
+function uh_mece_notifications_send(\UniversityofHelsinki\MECE\NotificationMessage $message) {
+
+  // Ensure we have set host
+  $endpoint_url = variable_get('uh_mece_http_endpoint_url', '');
+  if (empty($endpoint_url)) {
+    watchdog('uh_mece_notifications', 'Can not send notification with endpoint URL is missing.', array(), WATCHDOG_WARNING);
+    return FALSE;
+  }
+
+  // Export the message as JSON
+  try {
+    $body = $message->export();
+  }
+  catch (Exception $e) {
+    watchdog('uh_mece_notifications', 'Failed exporting message: @msg', array('@msg' => $e->getMessage()), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  // Specify options (method and request body)
+  $options = array('method' => variable_get('uh_mece_http_method', 'POST'), 'data' => $body);
+
+  // Gather request details and allow altering it before executing the request
+  $request = array('url' => $endpoint_url, 'options' => $options);
+  drupal_alter('uh_mece_notifications_request', $request);
+
+  return drupal_http_request($request['url'], $request['options']);
+
+}
